@@ -1,133 +1,104 @@
-[
-  {
-    "backlight": {
-      "device": "amd_backlight",
-      "format": "{percent}% {icon}",
-      "format-icons": [
-        "",
-        ""
-      ]
-    },
-    "battery": {
-      "bat": "BAT1",
-      "format": "{capacity}% {icon}",
-      "format-icons": [
-        "",
-        "",
-        "",
-        "",
-        ""
-      ],
-      "interval": 60,
-      "states": {
-        "critical": 15,
-        "warning": 30
-      }
-    },
-    "clock": {
-      "format": " {:%H:%M}",
-      "format-alt": " {:%d/%m/%Y}",
-      "timezone": "Europe/Berlin",
-      "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
-    },
-    "custom/layout": {
-      "escape": true,
-      "exec": "hyprctl -j getoption general:layout | jq '.str' | sed 's/\"//g'",
-      "format": "  {}",
-      "interval": 1,
-      "max-length": 50,
-      "tooltip": false
-    },
-    "custom/lock": {
-      "format": "",
-      "on-click": "hyprlock &",
-      "tooltip": false
-    },
-    "custom/music": {
-      "escape": true,
-      "exec": "playerctl metadata --format='{{ title }}'",
-      "format": "  {}",
-      "interval": 5,
-      "max-length": 50,
-      "on-click": "playerctl play-pause",
-      "tooltip": false
-    },
-    "custom/power": {
-      "format": "",
-      "on-click": "wlogout",
-      "tooltip": false
-    },
-    "layer": "top",
-    "modules-center": [
-      "custom/music"
-    ],
-    "modules-left": [
-      "hyprland/workspaces"
-    ],
-    "modules-right": [
-      "tray",
-      "pulseaudio",
-      "privacy",
-      "network",
-      "bluetooth",
-      "backlight",
-      "battery",
-      "clock",
-      "custom/layout",
-      "custom/lock",
-      "custom/power"
-    ],
-    "network": {
-      "format": "{ifname}",
-      "format-disconnected": "󰪪",
-      "format-ethernet": "󱲔 {ifname}",
-      "format-icons": [
-        "󰤟",
-        "󰤢",
-        "󰤥",
-        "󰤨"
-      ],
-      "format-linked": "󰌳 {ifname}",
-      "format-wifi": "{icon} {essid}",
-      "tooltip-disconnected": "Disconnected",
-      "tooltip-format": "{ifname} via {gwaddr}",
-      "tooltip-format-ethernet": "󱲔 {ifname}",
-      "tooltip-format-wifi": "Connected to {essid} ({signalStrength}󰏰 Strength) over {ifname} via {gwaddr}"
-    },
-    "position": "top",
-    "privacy": {
-      "icon-size": 20,
-      "icon-spacing": 4,
-      "modules": [
-        {
-          "tooltip": true,
-          "tooltip-icon-size": 24,
-          "type": "screenshare"
-        },
-        {
-          "tooltip": true,
-          "tooltip-icon-size": 24,
-          "type": "audio-in"
-        }
-      ],
-      "transition-duration": 200
-    },
-    "pulseaudio": {
-      "format": "{icon} {volume}%",
-      "format-icons": {
-        "default": [
-          "",
-          "",
-          " "
-        ]
-      },
-      "format-muted": "",
-      "on-click": "pavucontrol",
-      "scroll-step": 1
-    },
-    "tray": {
-      "icon-size": 21,
-      "spacing": 10
-    }
+{
+  "layer": "top",
+  "position": "top",
+
+  "modules-left": [
+    "hyprland/workspaces"
+  ],
+
+  "modules-center": [
+    "custom/music"
+  ],
+
+  "modules-right": [
+    "tray",
+    "custom/volume",
+    "custom/network",
+    "custom/backlight",
+    "custom/battery",
+    "clock",
+    "custom/layout",
+    "custom/lock",
+    "custom/power"
+  ],
+
+  "hyprland/workspaces": {
+    "format": "{name}",
+    "on-click": "activate",
+    "sort-by-number": true
+  },
+
+  "tray": {
+    "icon-size": 21,
+    "spacing": 10
+  },
+
+  "custom/music": {
+    "escape": true,
+    "exec": "playerctl metadata --format='{{ title }}' 2>/dev/null || true",
+    "format": "  {}",
+    "interval": 5,
+    "max-length": 50,
+    "on-click": "playerctl play-pause",
+    "tooltip": false
+  },
+
+  "custom/volume": {
+    "exec": "mixer -S vol 2>/dev/null | awk -F: '{gsub(/ /,\"\",$NF); print $NF\"%\"}'",
+    "format": "  {}",
+    "interval": 2,
+    "on-click": "mixer vol 0",
+    "tooltip": false
+  },
+
+  "custom/network": {
+    "exec": "iface=$(route -n get default 2>/dev/null | awk '/interface:/{print $2; exit}'); if [ -n \"$iface\" ]; then ip=$(ifconfig \"$iface\" 2>/dev/null | awk '/inet /{print $2; exit}'); [ -n \"$ip\" ] && echo \"󱲔 $iface\" || echo \"󰌙 $iface\"; else echo \"󰪪\"; fi",
+    "format": "{}",
+    "interval": 5,
+    "tooltip": false
+  },
+
+  "custom/backlight": {
+    "exec": "backlight 2>/dev/null | awk -F': ' '/brightness/{print int($2)\"%\"}'",
+    "format": "{} ",
+    "interval": 5,
+    "on-click": "backlight incr 10",
+    "on-click-right": "backlight decr 10",
+    "tooltip": false
+  },
+
+  "custom/battery": {
+    "exec": "life=$(sysctl -n hw.acpi.battery.life 2>/dev/null); state=$(sysctl -n hw.acpi.battery.state 2>/dev/null); [ -z \"$life\" ] && echo \"AC\" && exit 0; icon=\"\"; [ \"$life\" -lt 80 ] && icon=\"\"; [ \"$life\" -lt 60 ] && icon=\"\"; [ \"$life\" -lt 40 ] && icon=\"\"; [ \"$life\" -lt 20 ] && icon=\"\"; prefix=\"\"; [ \"$state\" = \"2\" ] && prefix=\" \"; echo \"$prefix$life% $icon\"",
+    "format": "{}",
+    "interval": 30,
+    "tooltip": false
+  },
+
+  "clock": {
+    "format": " {:%H:%M}",
+    "format-alt": " {:%d/%m/%Y}",
+    "timezone": "Europe/Berlin",
+    "tooltip-format": "<big>{:%Y %B}</big>\\n<tt><small>{calendar}</small></tt>"
+  },
+
+  "custom/layout": {
+    "escape": true,
+    "exec": "hyprctl getoption general:layout 2>/dev/null | awk '/str:/{print $2; exit}'",
+    "format": "  {}",
+    "interval": 1,
+    "max-length": 50,
+    "tooltip": false
+  },
+
+  "custom/lock": {
+    "format": "",
+    "on-click": "hyprlock &",
+    "tooltip": false
+  },
+
+  "custom/power": {
+    "format": "",
+    "on-click": "wlogout",
+    "tooltip": false
   }
-]
+}
