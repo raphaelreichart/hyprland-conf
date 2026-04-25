@@ -1,0 +1,1 @@
+/nix/store/dmrlrx43kk3sy1iw7cn80hvg8zvb4q1q-home-manager-files/.config/hypr/scripts/screenshot.sh
