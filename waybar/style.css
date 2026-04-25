@@ -1,0 +1,210 @@
+@import "/nix/store/rdb8dqj9j3fpja767gz8zsish36cqami-catppuccin-waybar-0-unstable-2024-07-13/mocha.css";
+@define-color accent @mauve;
+
+/* Catppuccin Mocha Colors */
+@define-color base #1e1e2e;
+@define-color mantle #181825;
+@define-color crust #11111b;
+@define-color surface0 #313244;
+@define-color surface1 #45475a;
+@define-color surface2 #585b70;
+@define-color text #cdd6f4;
+@define-color subtext0 #a6adc8;
+@define-color subtext1 #bac2de;
+@define-color mauve #cba6f7;
+@define-color lavender #b4befe;
+@define-color red #f38ba8;
+@define-color green #a6e3a1;
+@define-color yellow #f9e2af;
+@define-color blue #89b4fa;
+@define-color pink #f5c2e7;
+
+* {
+  font-family: "JetBrainsMono Nerd Font", "JetBrainsMono NF", "Material Design Icons", "Font Awesome 6 Free", sans-serif;
+  font-size: 13px;
+  min-height: 0;
+  border: none;
+  border-radius: 0;
+}
+
+#waybar {
+  background-color: @mantle;
+  color: @text;
+  border-bottom: 2px solid @surface0;
+}
+
+#workspaces {
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+}
+
+#workspaces button {
+  color: @subtext0;
+  background-color: transparent;
+  padding: 4px 12px;
+  margin: 0;
+  border-radius: 0;
+  border-bottom: 2px solid transparent;
+}
+
+#workspaces button.active {
+  color: @mauve;
+  background-color: @surface0;
+  border-bottom: 2px solid @mauve;
+}
+
+#workspaces button:hover {
+  color: @text;
+  background-color: @surface0;
+  border-bottom: 2px solid @surface2;
+}
+
+#custom-music,
+#custom-layout,
+#tray,
+#backlight,
+#clock,
+#battery,
+#pulseaudio,
+#custom-lock,
+#privacy,
+#network,
+#bluetooth,
+#custom-power {
+  background-color: transparent;
+  padding: 4px 10px;
+  margin: 0;
+  border-radius: 0;
+}
+
+#tray {
+  padding: 4px 8px;
+}
+
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+}
+
+#pulseaudio {
+  color: @text;
+}
+
+#pulseaudio:hover {
+  background-color: @surface0;
+}
+
+#network {
+  color: @text;
+}
+
+#network:hover {
+  background-color: @surface0;
+}
+
+#network.disconnected {
+  color: @subtext0;
+}
+
+#bluetooth {
+  color: @text;
+}
+
+#bluetooth:hover {
+  background-color: @surface0;
+}
+
+#bluetooth.off {
+  color: @subtext0;
+}
+
+#backlight {
+  color: @text;
+}
+
+#backlight:hover {
+  background-color: @surface0;
+}
+
+#battery {
+  color: @text;
+}
+
+#battery:hover {
+  background-color: @surface0;
+}
+
+#battery.charging {
+  color: @green;
+}
+
+#battery.warning:not(.charging) {
+  color: @yellow;
+}
+
+#battery.critical:not(.charging) {
+  color: @red;
+}
+
+#clock {
+  color: @text;
+  font-weight: bold;
+  padding: 4px 12px;
+}
+
+#clock:hover {
+  background-color: @surface0;
+}
+
+#custom-music {
+  color: @mauve;
+}
+
+#custom-music:hover {
+  background-color: @surface0;
+}
+
+#custom-layout {
+  color: @lavender;
+}
+
+#custom-layout:hover {
+  background-color: @surface0;
+}
+
+#custom-lock {
+  color: @mauve;
+  padding: 4px 8px;
+}
+
+#custom-lock:hover {
+  background-color: @surface0;
+}
+
+#custom-power {
+  color: @red;
+  padding: 4px 10px;
+}
+
+#custom-power:hover {
+  background-color: @surface0;
+}
+
+#privacy {
+  color: @mauve;
+}
+
+tooltip {
+  background-color: @base;
+  border: 1px solid @surface0;
+  border-radius: 4px;
+}
+
+tooltip label {
+  color: @text;
+  padding: 4px;
+}

@@ -1,0 +1,133 @@
+[
+  {
+    "backlight": {
+      "device": "amd_backlight",
+      "format": "{percent}% {icon}",
+      "format-icons": [
+        "",
+        ""
+      ]
+    },
+    "battery": {
+      "bat": "BAT1",
+      "format": "{capacity}% {icon}",
+      "format-icons": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "interval": 60,
+      "states": {
+        "critical": 15,
+        "warning": 30
+      }
+    },
+    "clock": {
+      "format": " {:%H:%M}",
+      "format-alt": " {:%d/%m/%Y}",
+      "timezone": "Europe/Berlin",
+      "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    },
+    "custom/layout": {
+      "escape": true,
+      "exec": "hyprctl -j getoption general:layout | jq '.str' | sed 's/\"//g'",
+      "format": "  {}",
+      "interval": 1,
+      "max-length": 50,
+      "tooltip": false
+    },
+    "custom/lock": {
+      "format": "",
+      "on-click": "hyprlock &",
+      "tooltip": false
+    },
+    "custom/music": {
+      "escape": true,
+      "exec": "playerctl metadata --format='{{ title }}'",
+      "format": "  {}",
+      "interval": 5,
+      "max-length": 50,
+      "on-click": "playerctl play-pause",
+      "tooltip": false
+    },
+    "custom/power": {
+      "format": "",
+      "on-click": "wlogout",
+      "tooltip": false
+    },
+    "layer": "top",
+    "modules-center": [
+      "custom/music"
+    ],
+    "modules-left": [
+      "hyprland/workspaces"
+    ],
+    "modules-right": [
+      "tray",
+      "pulseaudio",
+      "privacy",
+      "network",
+      "bluetooth",
+      "backlight",
+      "battery",
+      "clock",
+      "custom/layout",
+      "custom/lock",
+      "custom/power"
+    ],
+    "network": {
+      "format": "{ifname}",
+      "format-disconnected": "󰪪",
+      "format-ethernet": "󱲔 {ifname}",
+      "format-icons": [
+        "󰤟",
+        "󰤢",
+        "󰤥",
+        "󰤨"
+      ],
+      "format-linked": "󰌳 {ifname}",
+      "format-wifi": "{icon} {essid}",
+      "tooltip-disconnected": "Disconnected",
+      "tooltip-format": "{ifname} via {gwaddr}",
+      "tooltip-format-ethernet": "󱲔 {ifname}",
+      "tooltip-format-wifi": "Connected to {essid} ({signalStrength}󰏰 Strength) over {ifname} via {gwaddr}"
+    },
+    "position": "top",
+    "privacy": {
+      "icon-size": 20,
+      "icon-spacing": 4,
+      "modules": [
+        {
+          "tooltip": true,
+          "tooltip-icon-size": 24,
+          "type": "screenshare"
+        },
+        {
+          "tooltip": true,
+          "tooltip-icon-size": 24,
+          "type": "audio-in"
+        }
+      ],
+      "transition-duration": 200
+    },
+    "pulseaudio": {
+      "format": "{icon} {volume}%",
+      "format-icons": {
+        "default": [
+          "",
+          "",
+          " "
+        ]
+      },
+      "format-muted": "",
+      "on-click": "pavucontrol",
+      "scroll-step": 1
+    },
+    "tray": {
+      "icon-size": 21,
+      "spacing": 10
+    }
+  }
+]
